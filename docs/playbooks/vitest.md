@@ -1,6 +1,6 @@
 ---
 playbook_id: vitest
-version: 3.1.1
+version: 5.0.0
 researched: 2026-09-13
 status: current
 ---
@@ -11,7 +11,7 @@ Test runner for unit and integration tests (`vitest run` in CI, `vitest` watch l
 
 ## Setup
 
-- `vitest@^3.1.1`; zero config needed for `src/**/*.test.ts` — defaults already match ESM + NodeNext here.
+- `vitest@^5.0.0`; zero config needed for `src/**/*.test.ts` — defaults already match ESM + NodeNext here.
 - CI gate: `npm test` must run the whole suite in run mode (no watch), plus `npm run build` for the type check.
 
 ## Conventions
@@ -31,6 +31,6 @@ Nothing runner-specific.
 
 ## Upgrade policy
 
-npm latest is 5.0.0 (checked 2026-09-13); we are on 3.x. Major bumps are tracked stories — run the suite, update any changed APIs, then `arggon playbook refresh vitest --version <v>`.
+we track npm latest (5.0.0 as of 2026-09-13 — this upgrade also cleared the @vitest/mocker advisory GHSA-82fw-gwwq-j7x9). Major bumps stay tracked stories — run the suite, update any changed APIs, then `arggon playbook refresh vitest --version <v>`.
 
 Sources (accessed 2026-09-13): npm registry (dist-tags), https://vitest.dev/guide/

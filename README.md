@@ -9,7 +9,7 @@ Doing this on a notes app after every trip is a mess. This is a small service to
 log expenses as they happen and get the answer at the end: the minimal list of
 transfers that clears all debts.
 
-## Stack (WIP — see docs/DECISIONS.md)
+## Stack (decided — see docs/adr/)
 
 - Node.js 22 + TypeScript
 - Express 5 for the API
@@ -26,10 +26,4 @@ npm run dev        # http://localhost:3000/health
 
 ## Roadmap
 
-Tracked as GitHub issues (see the issue list). Rough order:
-
-1. Ledger engine (balances from expenses)
-2. CSV import
-3. Minimal transfer calculation (settlement)
-4. REST API + JSON file persistence
-5. Balances UI
+Work is tracked in-tree with ArggonManager — see `tasks/` (run `arggon board` for the kanban). GitHub hosts PRs only. Rough order: ledger engine → settlement → REST API + persistence → CSV import, balances UI, email digest (parallel).

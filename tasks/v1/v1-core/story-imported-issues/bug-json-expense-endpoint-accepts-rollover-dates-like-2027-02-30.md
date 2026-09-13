@@ -1,6 +1,6 @@
 ---
 type: bug
-status: in_progress
+status: done
 id: bug-json-expense-endpoint-accepts-rollover-dates-like-2027-02-30
 title: JSON expense endpoint accepts rollover dates like 2027-02-30
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: story-imported-issues
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T05:04:45.548Z"
 worktree_path: /home/arggon/Projects/cuentas-claras-bug-json-expense-endpoint-accepts-rollover-dates-like-2027-02-30
 ---
 <!--

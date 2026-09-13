@@ -33,3 +33,9 @@ worktree_path: /home/arggon/Projects/cuentas-claras-bug-upgrade-vitest5
 
 ### 2026-09-13 @Arggon
 Found via GitHub Dependabot alert on default branch (2026-09-13, 2 moderate): @vitest/mocker 2.1.0-4.1.1x path traversal / arbitrary file read via redirect mock (GHSA-82fw-gwwq-j7x9). Affects dev/test toolchain only, not runtime. Fix: npm install vitest@5 (breaking major), run suite, update any changed APIs, then docs/playbooks/vitest.md via arggon playbook refresh vitest --version 5.0.0. Scheduled right after the sequential chain (ledger/settlement/API) merges and before parallel stories branch, so the toolchain is fixed for all remaining work.
+
+## Acceptance
+
+- [x] vitest ^5.0.0 installed; `@vitest/mocker` advisory GHSA-82fw-gwwq-j7x9 cleared (`npm audit` clean).
+- [x] Full suite green on v5 without test changes (29 tests).
+- [x] docs/playbooks/vitest.md refreshed (version 5.0.0, researched today).

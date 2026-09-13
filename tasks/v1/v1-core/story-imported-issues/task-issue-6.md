@@ -10,7 +10,6 @@ labels: [enhancement]
 created: "2026-09-13"
 updated: "2026-09-13"
 depends_on: [task-issue-4]
-worktree_path: /home/arggon/Projects/cuentas-claras-task-issue-6
 ---
 Optional/later: a cron-style job that emails a monthly summary (new expenses, current balances, pending transfers) to group members.
 

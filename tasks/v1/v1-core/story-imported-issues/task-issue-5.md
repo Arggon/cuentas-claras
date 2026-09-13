@@ -10,7 +10,6 @@ labels: [enhancement]
 created: "2026-09-13"
 updated: "2026-09-13"
 depends_on: [task-issue-4]
-worktree_path: /home/arggon/Projects/cuentas-claras-task-issue-5
 ---
 Single static page served by the API:
 

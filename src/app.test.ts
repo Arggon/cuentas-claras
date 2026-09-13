@@ -33,6 +33,8 @@ const post = (base: string, path: string, body: unknown) =>
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
   });
+const postCsv = (base: string, body: string, contentType = "text/csv") =>
+  fetch(`${base}/expenses/import`, { method: "POST", headers: { "content-type": contentType }, body });
 
 describe("API", () => {
   it("keeps the health endpoint", async () => {
@@ -132,5 +134,101 @@ describe("API", () => {
       { from: "martin", to: "gonza", amountCents: 10000 },
       { from: "sol", to: "gonza", amountCents: 10000 },
     ]);
+  });
+});
+
+describe("CSV import", () => {
+  const header = "date,description,amount,paid_by,participants";
+  const csv = [
+    header,
+    "2027-01-10,Cabin,12.34,gonza,sol;martin",
+    '2027-01-11,Cafe con leche,"12,50",sol,',
+    "2027-01-12,Unknown payer,3.00,nadia,",
+    "2027-01-13,Bad amount,12.345,gonza,",
+  ].join("\n");
+
+  async function bootWithMembers(): Promise<string> {
+    const base = await boot();
+    for (const name of ["gonza", "sol", "martin"]) await post(base, "/members", { name });
+    return base;
+  }
+
+  it("imports valid rows, rejects bad ones per row and lists them in /expenses", async () => {
+    const base = await bootWithMembers();
+
+    const res = await postCsv(base, csv);
+    expect(res.status).toBe(200);
+    const report = (await res.json()) as {
+      imported: number;
+      duplicates: number;
+      rejected: Array<{ line: number; reason: string }>;
+    };
+    expect(report.imported).toBe(2);
+    expect(report.duplicates).toBe(0);
+    expect(report.rejected).toEqual([
+      { line: 4, reason: expect.stringMatching(/paid_by "nadia" is not a known member/) },
+      { line: 5, reason: expect.stringMatching(/amount "12.345"/) },
+    ]);
+
+    const expenses = (await (await get(base, "/expenses")).json()) as Array<{
+      id: string;
+      date: string;
+      amountCents: number;
+      paidBy: string;
+      participants: string[];
+    }>;
+    expect(expenses).toHaveLength(2);
+    expect(expenses.map((e) => e.id)).toMatchObject([/^exp_[0-9a-f]{16}$/, /^exp_[0-9a-f]{16}$/]);
+    expect(expenses[0]).toMatchObject({
+      date: "2027-01-10",
+      description: "Cabin",
+      amountCents: 1234,
+      paidBy: "gonza",
+      participants: ["sol", "martin"],
+    });
+    expect(expenses[1]).toMatchObject({ date: "2027-01-11", amountCents: 1250, paidBy: "sol" });
+  });
+
+  it("is idempotent: re-importing the same file counts duplicates, not expenses", async () => {
+    const base = await bootWithMembers();
+
+    const first = await postCsv(base, csv);
+    expect(((await first.json()) as { imported: number }).imported).toBe(2);
+
+    const second = await postCsv(base, csv);
+    expect(second.status).toBe(200);
+    const report = (await second.json()) as { imported: number; duplicates: number; rejected: unknown[] };
+    expect(report.imported).toBe(0);
+    expect(report.duplicates).toBe(2);
+    expect(report.rejected).toHaveLength(2);
+
+    const expenses = (await (await get(base, "/expenses")).json()) as unknown[];
+    expect(expenses).toHaveLength(2);
+  });
+
+  it("imports a row repeated within one file exactly once", async () => {
+    const base = await bootWithMembers();
+    const duplicated = [header, "2027-01-10,Cabin,12.34,gonza,", "2027-01-10,Cabin,12.34,gonza,"].join("\n");
+
+    const res = await postCsv(base, duplicated);
+    const report = (await res.json()) as { imported: number; duplicates: number };
+    expect(report).toMatchObject({ imported: 1, duplicates: 1 });
+
+    const expenses = (await (await get(base, "/expenses")).json()) as unknown[];
+    expect(expenses).toHaveLength(1);
+  });
+
+  it("answers with the report for an empty file and 400 for a non-CSV body", async () => {
+    const base = await bootWithMembers();
+
+    const empty = await postCsv(base, "");
+    expect(empty.status).toBe(200);
+    const report = (await empty.json()) as { imported: number; rejected: Array<{ line: number; reason: string }> };
+    expect(report.imported).toBe(0);
+    expect(report.rejected).toEqual([{ line: 1, reason: expect.stringMatching(/missing header row/) }]);
+
+    // A body sent as something other than text/csv never reaches the parser.
+    const notCsv = await postCsv(base, "not csv", "text/plain");
+    expect(notCsv.status).toBe(400);
   });
 });

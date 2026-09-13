@@ -29,8 +29,8 @@ Reproduce: `npm run build && npm test` — Test Files doubles.
 
 ## Acceptance
 
-- [ ] `npm run build && npm test` reports each test exactly once (vitest pinned to `src/**/*.test.ts`).
-- [ ] Full suite green on main.
+- [x] `npm run build && npm test` reports each test exactly once (vitest pinned to `src/**/*.test.ts`).
+- [x] Full suite green (85 tests, build first — no dist duplicates).
 
 ## Notes
 

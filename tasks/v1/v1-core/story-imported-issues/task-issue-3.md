@@ -1,6 +1,6 @@
 ---
 type: task
-status: in_progress
+status: done
 id: task-issue-3
 title: "issue #3: Minimal settlement calculation (fewest transfers)"
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T04:23:43.129Z"
 depends_on: [task-issue-1]
 worktree_path: /home/arggon/Projects/cuentas-claras-task-issue-3
 ---

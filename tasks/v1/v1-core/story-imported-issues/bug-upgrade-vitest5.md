@@ -1,12 +1,16 @@
 ---
 type: bug
-status: todo
+status: in_progress
 id: bug-upgrade-vitest5
 title: Upgrade vitest 3.x to 5 (fixes @vitest/mocker path traversal GHSA-82fw-gwwq-j7x9)
+assignee: Arggon
+branch: fix/bug-upgrade-vitest5
 parent: story-imported-issues
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T04:34:50.687Z"
+worktree_path: /home/arggon/Projects/cuentas-claras-bug-upgrade-vitest5
 ---
 <!--
   Placement (v0): tasks/v1/v1-core/story-imported-issues/bug-upgrade-vitest5.md

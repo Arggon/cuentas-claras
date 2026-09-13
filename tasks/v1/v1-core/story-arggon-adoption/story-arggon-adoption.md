@@ -1,6 +1,6 @@
 ---
 type: story
-status: todo
+status: done
 id: story-arggon-adoption
 title: ArggonManager adoption
 parent: v1-core

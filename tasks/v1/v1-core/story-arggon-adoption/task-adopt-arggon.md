@@ -1,6 +1,6 @@
 ---
 type: task
-status: in_progress
+status: done
 id: task-adopt-arggon
 title: Adopt ArggonManager in this repo
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: story-arggon-adoption
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T04:02:24.302Z"
 worktree_path: /home/arggon/Projects/cuentas-claras-task-adopt-arggon
 ---
 ## Context

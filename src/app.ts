@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import express from "express";
 import { computeBalances } from "./ledger.js";
+import { importRouter } from "./routes-import.js";
 import { computeSettlement } from "./settlement.js";
 import type { LedgerRepository } from "./store.js";
 import { parseExpenseInput, parseMemberInput } from "./validate.js";
@@ -58,6 +59,8 @@ export function createApp(store: LedgerRepository): express.Express {
     const ledger = await store.load();
     res.json(computeSettlement(computeBalances(ledger.members, ledger.expenses)));
   });
+
+  app.use(importRouter(store));
 
   // Express 5 forwards async-handler rejections here.
   app.use(

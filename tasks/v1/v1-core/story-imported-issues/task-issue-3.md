@@ -10,7 +10,6 @@ labels: [enhancement]
 created: "2026-09-13"
 updated: "2026-09-13"
 depends_on: [task-issue-1]
-worktree_path: /home/arggon/Projects/cuentas-claras-task-issue-3
 ---
 Given balances, compute the shortest list of transfers that clears all debts (min cash flow).
 

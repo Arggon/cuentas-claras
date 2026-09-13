@@ -20,3 +20,13 @@ Core module (pure, no I/O): given members + expenses, compute each member's net 
 
 This blocks everything else — API, UI and settlement all consume it.
 > imported from issue #1
+
+## Acceptance
+
+- [x] Split an expense evenly across `participants` (empty = all members) — `computeBalances` in `src/ledger.ts`, covered by ledger tests.
+- [x] Remainder cents go to the payer — payer credit is `share * (n-1)`; sum stays zero.
+- [x] Output `Balance[]` sorted by member name, every member exactly once.
+- [x] Pure module (no I/O), deterministic; consumed later by settlement/API/UI.
+- [x] `npm test` green (7 tests) + `npm run build` (strict tsc) green.
+
+Implemented per docs/specs/spec-ledger-balances-001.md (status: implemented).

@@ -7,6 +7,19 @@ type ParseResult<T> = { ok: true; value: T } | { ok: false; error: string };
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 /**
+ * Strict ISO calendar date: `Date.parse` alone accepts day rollovers
+ * (e.g. `2027-02-30` parses as March 2), so the components must round-trip.
+ */
+export function isValidIsoDate(value: string): boolean {
+  if (!ISO_DATE.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const utc = new Date(Date.UTC(year, month - 1, day));
+  return (
+    utc.getUTCFullYear() === year && utc.getUTCMonth() === month - 1 && utc.getUTCDate() === day
+  );
+}
+
+/**
  * Validates an expense body against docs/data-format.md. Pure: given the
  * current member list, it either returns the typed fields or a reason.
  */
@@ -16,7 +29,7 @@ export function parseExpenseInput(body: unknown, members: string[]): ParseResult
   }
   const { date, description, amountCents, paidBy, participants } = body as Record<string, unknown>;
 
-  if (typeof date !== "string" || !ISO_DATE.test(date) || Number.isNaN(Date.parse(date))) {
+  if (typeof date !== "string" || !isValidIsoDate(date)) {
     return { ok: false, error: "date must be an ISO date (YYYY-MM-DD)" };
   }
   if (typeof description !== "string" || description.trim().length === 0) {

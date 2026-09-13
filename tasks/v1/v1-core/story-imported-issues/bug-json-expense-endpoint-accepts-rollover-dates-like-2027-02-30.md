@@ -38,3 +38,9 @@ duplicate the 6-line function), add `2027-02-30` to the rejection cases in
 - [ ] `POST /expenses` with `date: "2027-02-30"` returns 400; `src/validate.test.ts` covers rollover dates.
 
 ## Notes
+
+## Acceptance
+
+- [x] POST /expenses rejects rollover dates (2027-02-30, 2027-02-29, 2027-04-31) with 400; 2028-02-29 accepted.
+- [x] Shared strict `isValidIsoDate` in src/validate.ts; csv.ts reuses it (no duplicated helper).
+- [x] `npm test` + `npm run build` green.

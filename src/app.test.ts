@@ -96,6 +96,7 @@ describe("API", () => {
       { date: "2027-01-10", description: "x", amountCents: 12.34, paidBy: "gonza", participants: [] },
       { date: "2027-01-10", description: "x", amountCents: 100, paidBy: "nadia", participants: [] },
       { date: "2027-01-10", description: "x", amountCents: 100, paidBy: "gonza", participants: ["nadia"] },
+      { date: "2027-02-30", description: "x", amountCents: 100, paidBy: "gonza", participants: [] },
     ];
     for (const body of cases) {
       const res = await post(base, "/expenses", body);

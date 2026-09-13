@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import type { ParsedExpense } from "./validate.js";
+import { isValidIsoDate, type ParsedExpense } from "./validate.js";
 
 /** A validated CSV row, ready to append, carrying its deterministic id. */
 export type ImportableExpense = ParsedExpense & { id: string };
@@ -19,7 +19,6 @@ const COLUMNS = ["date", "description", "amount", "paid_by", "participants"] as 
 type Column = (typeof COLUMNS)[number];
 type HeaderMap = Record<Column, number>;
 
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 /** Digits, then at most one decimal separator (dot or comma) with 1-2 digits (ADR 0003). */
 const AMOUNT = /^\d+(?:[.,]\d{1,2})?$/;
 /** Cap keeps intPart * 100 far inside Number.MAX_SAFE_INTEGER. */
@@ -110,19 +109,6 @@ function mapHeader(fields: string[]): { ok: true; index: HeaderMap } | { ok: fal
 }
 
 /**
- * Strict ISO calendar date: `Date.parse` alone accepts day rollovers
- * (e.g. `2027-02-30` parses as March 2), so the components must round-trip.
- */
-function isIsoDate(value: string): boolean {
-  if (!ISO_DATE.test(value)) return false;
-  const [year, month, day] = value.split("-").map(Number);
-  const utc = new Date(Date.UTC(year, month - 1, day));
-  return (
-    utc.getUTCFullYear() === year && utc.getUTCMonth() === month - 1 && utc.getUTCDate() === day
-  );
-}
-
-/**
  * Decimal text → integer cents (ADR 0003): accepts `12.34` and `12,34`, plain
  * integers (`12` → 1200) and one decimal digit (`12.5` → 1250). Anything that is
  * not an exact decimal amount — 3+ decimals, two separators, negative, zero,
@@ -195,7 +181,7 @@ export function parseCsvExpenses(text: string, members: string[]): ParsedCsv {
     }
 
     const date = fields[column.date].trim();
-    if (!isIsoDate(date)) {
+    if (!isValidIsoDate(date)) {
       errors.push({ line: record.line, reason: `date "${date}" must be an ISO date (YYYY-MM-DD)` });
       continue;
     }

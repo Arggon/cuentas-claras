@@ -9,7 +9,6 @@ parent: story-imported-issues
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
-worktree_path: /home/arggon/Projects/cuentas-claras-bug-json-expense-endpoint-accepts-rollover-dates-like-2027-02-30
 ---
 <!--
   Placement (v0): tasks/v1/v1-core/story-imported-issues/bug-json-expense-endpoint-accepts-rollover-dates-like-2027-02-30.md

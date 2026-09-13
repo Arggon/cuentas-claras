@@ -1,50 +1,57 @@
 <!-- arggon:generated template="ARCHITECTURE.md" -->
 # cuentas-claras — Architecture
 
-<!-- matklad-style skeleton: big picture first, then a code map, then the boundaries.
-     Replace every TODO; delete sections that genuinely do not apply. Keep it current in the
-     same PR that changes the architecture it describes. -->
-
 ## Problem
 
-<!-- What problem does cuentas-claras solve, for whom, and what are the hard constraints?
-     Two or three paragraphs at most. Name the non-goals explicitly. -->
+Groups on trips or shared hangouts track expenses in a notes app and settle up by vibes — someone ends up out of pocket and nobody can reconstruct why. cuentas-claras is a small service where a group logs expenses as they happen and gets a deterministic answer at the end: each member's net balance and the minimal list of transfers that clears all debts.
 
-TODO: problem statement.
+Hard constraints: money arithmetic must be exact (integer cents, ADR 0003); the ledger file must never be corrupted by a failed write (atomic write, ADR 0002); answers must be reproducible (pure ledger/settlement functions, same input → same output).
+
+Non-goals: authentication/multi-tenancy (one trusted group per deployment), currency conversion, receipt OCR, a native mobile app.
 
 ## Big picture
 
-<!-- How does a request / command / event flow through the system? Name the major moving
-     parts and the direction of dependencies. A small diagram helps. -->
+One Express process serves the API and the static UI; all money logic lives in pure modules with no I/O.
 
-TODO: end-to-end walkthrough of one representative operation.
+```text
+UI (public/, vanilla JS)  ──fetch──▶  Express routes (src/routes.ts, mounted by src/app.ts)
+                                          │            │
+                                          │            └──▶ repository (src/store.ts)
+                                          │                   writes data/ledger.json atomically
+                                          ▼
+                              pure ledger (src/ledger.ts) ──▶ settlement (src/settlement.ts)
+                              balances from expenses         minimal transfers from balances
+```
+
+A representative write: `POST /expenses` validates the body against `docs/data-format.md`, the repository appends it to `data/ledger.json` (tmp + rename), and the response returns the new balances computed by the pure ledger module. A representative read: `GET /settlement` loads expenses through the repository, computes balances, then runs the min-transfer calculation.
 
 ## Code map
 
-<!-- "You are here" map of the tree. One bullet per directory: what lives here, what must
-     NOT live here. Update in the same PR that moves code. -->
-
 ```text
 cuentas-claras/
-  tasks/        # TODO: purpose
-  docs/         # TODO: purpose
-  src/          # TODO: purpose
+  tasks/        # arggon work items (the tracker; source of truth for work)
+  docs/         # convention, engineering bar, ADRs, playbooks, data format
+  src/          # TypeScript: entry point, app factory, pure ledger/settlement, repository, CSV import
+  public/       # static UI served by the API (vanilla HTML/CSS/JS)
+  templates/    # arggon work-item templates
+  data/         # ledger.json lives here (gitignored — runtime state, never committed)
 ```
 
 ## Boundaries and layering rules
 
-<!-- The rules reviewers enforce: allowed dependency directions, module ownership, public
-     API surface, what may import what. Keep the list short and checkable. -->
-
-- TODO: e.g. "the CLI layer may not import storage internals directly".
-- TODO: e.g. "all writes go through <module>".
+- `src/ledger.ts` and `src/settlement.ts` are pure: no `fs`, no `process`, no network. Everything else feeds them plain values.
+- HTTP routes never touch `fs` directly — all persistence goes through the repository (`src/store.ts`).
+- Untrusted input (HTTP bodies, CSV rows) is validated against `docs/data-format.md` at the edge; the pure modules assume valid input.
+- Express types stay inside the route/app layer; domain modules never import `express`.
+- Currency formatting happens only at the edges (UI, exports) — the domain deals in integer cents (ADR 0003).
 
 ## Invariants
 
-<!-- Properties that must always hold (never overwrite user data, pure reads, etc.).
-     These usually correspond to dedicated tests. -->
-
-- TODO: invariant → test that guards it.
+- Amounts are integer cents; parsing rejects anything else (ADR 0003) → guarded by ledger and CSV tests.
+- A failed write never damages the existing ledger (tmp + rename) → guarded by store tests.
+- Split remainder cents go to the payer; balances always sum to zero → guarded by ledger property tests.
+- The settlement transfer list sums exactly to the total debt, and no member appears on both sides → guarded by settlement property tests.
+- Re-importing the same CSV never duplicates expenses (idempotent import) → guarded by import tests.
 
 ---
 

@@ -29,10 +29,9 @@ A change is acceptable when it satisfies the bar above and a reviewer can answer
 
 ## Testing expectations
 
-<!-- Project-specific: coverage expectations, what needs integration vs unit tests, fixtures policy. -->
-
-- TODO: unit vs integration split.
-- TODO: what must be covered before merge.
+- **Unit** (table-driven, no I/O): the pure modules — ledger balances (split rule, remainder cents), settlement (min transfers, invariants), CSV parsing/validation. Fixtures stay inline in the test file.
+- **Integration**: API routes via the app factory on an ephemeral port + native `fetch`; the repository against a temp-dir ledger file (atomic write, reload round-trip). The static UI is exercised manually via the runbook; its endpoints are already covered by API tests.
+- **Before merge:** full `npm test` + `npm run build` green; every acceptance checkbox in the work item has a corresponding assertion or a written reason why it can't have one.
 
 ## ADRs
 

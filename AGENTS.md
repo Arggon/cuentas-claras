@@ -5,9 +5,7 @@ Instructions for humans and AI agents working on **cuentas-claras**. Read this f
 
 ## What this project is
 
-<!-- Describe the project in one or two sentences: what it does, for whom, and its core constraint. -->
-
-cuentas-claras — <!-- TODO: one-sentence project description -->.
+cuentas-claras — a shared-expense tracker for trips and group hangouts: log what everyone paid, see who owes whom, and settle up with the fewest possible transfers. One JSON-file ledger, one API process serving a vanilla UI, no auth (trusted group).
 
 ## Task workflow
 
@@ -29,6 +27,8 @@ Read these before non-trivial changes (if present in this repo):
 - [`docs/convention.md`](docs/convention.md) — tasks/ tree layout and frontmatter schema.
 - [`docs/engineering.md`](docs/engineering.md) — review bar, testing, definition of done.
 - `docs/playbooks/` — technology playbooks: follow them for the current pinned versions and best practices; check `arggon playbook status` and refresh playbooks when they go stale.
+- [`docs/adr/`](docs/adr/) — accepted cross-cutting decisions (Express 5, JSON storage, integer cents). Propose new ones as ADRs, supersede instead of rewriting.
+- [`docs/data-format.md`](docs/data-format.md) — the ledger file format every write path must validate against.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — branch, commit, and PR rules.
 
 ## Gates

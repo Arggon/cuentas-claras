@@ -9,6 +9,17 @@ Thanks for helping. Work is tracked in-tree under `tasks/` (Markdown work items 
 2. Find a claimable item: `arggon list --status todo --json`.
 3. Claim it: `arggon update <id> --status in_progress --assignee <your-login>`. Never steal a claim.
 
+## Development
+
+Environment and commands:
+
+- Node 22.x LTS (see `docs/playbooks/node.md`) and npm.
+- `npm install` — install dependencies.
+- `npm run dev` — run the API locally with reload (http://localhost:3000/health).
+- `npm run build` — typecheck + compile to `dist/` (tsc, strict mode).
+- `npm test` — full vitest suite; must be green before any PR merges.
+- `arggon validate` — must pass whenever the change touches `tasks/` or templates.
+
 ## Branches
 
 One branch per work item, generated from the item id:

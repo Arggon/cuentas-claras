@@ -1,6 +1,6 @@
 ---
 type: task
-status: in_progress
+status: done
 id: task-issue-5
 title: "issue #5: Balances UI (vanilla)"
 assignee: Arggon
@@ -9,7 +9,6 @@ parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"
 updated: "2026-09-13"
-claimed_at: "2026-09-13T04:37:23.015Z"
 depends_on: [task-issue-4]
 worktree_path: /home/arggon/Projects/cuentas-claras-task-issue-5
 ---

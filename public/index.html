@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>cuentas-claras</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>cuentas-claras</h1>
+    <p class="tagline">quién pagó qué · quién debe a quién · cómo saldar con la menor cantidad de transferencias</p>
+  </header>
+
+  <p id="status" class="status" role="status" hidden></p>
+
+  <main>
+    <section aria-labelledby="members-title">
+      <h2 id="members-title">miembros</h2>
+      <form id="member-form" class="inline-form">
+        <input id="member-name" type="text" placeholder="nombre del integrante" autocomplete="off" required />
+        <button type="submit">agregar</button>
+      </form>
+      <p id="members-list" class="members-list"></p>
+    </section>
+
+    <section aria-labelledby="expense-title">
+      <h2 id="expense-title">nuevo gasto</h2>
+      <form id="expense-form">
+        <div class="grid">
+          <label>quién pagó
+            <select id="paid-by" required></select>
+          </label>
+          <label>fecha
+            <input id="date" type="date" required />
+          </label>
+          <label class="wide">descripción
+            <input id="description" type="text" placeholder="cena, cabina, nafta…" autocomplete="off" required />
+          </label>
+          <label>monto
+            <input id="amount" type="text" inputmode="decimal" placeholder="12.34" required />
+          </label>
+          <p class="hint wide">el monto se convierte a centavos enteros: 12.34 → 1234</p>
+        </div>
+        <fieldset>
+          <legend>quiénes dividen <span class="hint">(si no marcás nadie, divide entre todos)</span></legend>
+          <div id="participants" class="participants"></div>
+        </fieldset>
+        <button id="add-expense" type="submit">agregar gasto</button>
+      </form>
+    </section>
+
+    <section aria-labelledby="balances-title">
+      <h2 id="balances-title">balances</h2>
+      <table id="balances-table">
+        <thead>
+          <tr><th>integrante</th><th>estado</th><th class="num">monto</th></tr>
+        </thead>
+        <tbody id="balances-body"></tbody>
+      </table>
+      <p id="balances-empty" class="empty" hidden>sin gastos todavía</p>
+    </section>
+
+    <section aria-labelledby="settlement-title">
+      <h2 id="settlement-title">settlement</h2>
+      <ul id="settlement-list" class="transfers"></ul>
+      <p id="settlement-empty" class="empty" hidden>nada que liquidar: estamos en paz</p>
+    </section>
+  </main>
+
+  <footer>los montos viajan en centavos enteros (ADR 0003) y solo se formatean acá, en la pantalla</footer>
+</body>
+</html>

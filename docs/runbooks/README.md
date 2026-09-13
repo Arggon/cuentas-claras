@@ -7,7 +7,7 @@ Operational runbooks for cuentas-claras: step-by-step procedures for incidents, 
 
 <!-- One bullet per runbook, most-used first. -->
 
-- <!-- runbook-name.md — when to use it -->
+- [verify-ui.md](verify-ui.md) — manual pass over the served UI (dev server, members + expense + balances/settlement check).
 
 ## Writing a runbook
 

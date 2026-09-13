@@ -44,6 +44,14 @@ describe("API", () => {
     expect(await res.json()).toEqual({ ok: true });
   });
 
+  it("serves the UI at /", async () => {
+    const base = await boot();
+    const res = await get(base, "/");
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toContain("text/html");
+    expect(await res.text()).toContain("cuentas-claras");
+  });
+
   it("manages members", async () => {
     const base = await boot();
     const created = await post(base, "/members", { name: "gonza" });

@@ -25,6 +25,13 @@ describe("parseExpenseInput", () => {
     }
   });
 
+  it("rejects rollover dates like 2027-02-30 (strict calendar check)", () => {
+    for (const date of ["2027-02-30", "2027-02-29", "2027-04-31"]) {
+      expect(parseExpenseInput({ ...validBody, date }, MEMBERS).ok).toBe(false);
+    }
+    expect(parseExpenseInput({ ...validBody, date: "2028-02-29" }, MEMBERS).ok).toBe(true);
+  });
+
   it("rejects empty descriptions", () => {
     expect(parseExpenseInput({ ...validBody, description: "   " }, MEMBERS).ok).toBe(false);
   });

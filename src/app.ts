@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import path from "node:path";
 import express from "express";
 import { computeBalances } from "./ledger.js";
 import { computeSettlement } from "./settlement.js";
@@ -58,6 +59,9 @@ export function createApp(store: LedgerRepository): express.Express {
     const ledger = await store.load();
     res.json(computeSettlement(computeBalances(ledger.members, ledger.expenses)));
   });
+
+  // Static UI: public/ sits one level up from src/ (tsx, vitest) and dist/ (node).
+  app.use(express.static(path.join(import.meta.dirname, "..", "public")));
 
   // Express 5 forwards async-handler rejections here.
   app.use(

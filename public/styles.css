@@ -1,0 +1,283 @@
+/* cuentas-claras — terminal oscuro, mobile-friendly, sin frameworks */
+
+:root {
+  color-scheme: dark;
+  --bg: #0a0f0a;
+  --panel: #0f1710;
+  --border: #22331f;
+  --text: #cde8cd;
+  --dim: #7fa07f;
+  --accent: #4ade80;
+  --accent-strong: #22c55e;
+  --neg: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  padding: 1rem;
+  max-width: 640px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  line-height: 1.5;
+}
+
+header h1 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.4rem;
+}
+
+header h1::before {
+  content: "$ ";
+  color: var(--dim);
+}
+
+.tagline {
+  margin: 0.25rem 0 1rem;
+  color: var(--dim);
+  font-size: 0.8rem;
+}
+
+section {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+h2::before {
+  content: "> ";
+  color: var(--dim);
+}
+
+form {
+  margin: 0;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--dim);
+  font-size: 0.85rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font: inherit;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+button:disabled {
+  border-color: var(--border);
+  color: var(--dim);
+  cursor: not-allowed;
+}
+
+.inline-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.inline-form input {
+  flex: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.grid .wide {
+  grid-column: 1 / -1;
+}
+
+fieldset {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+}
+
+legend {
+  padding: 0 0.4rem;
+  color: var(--dim);
+  font-size: 0.85rem;
+}
+
+.participants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+}
+
+.participant {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.participant input {
+  width: auto;
+  accent-color: var(--accent);
+}
+
+.hint {
+  margin: 0;
+  color: var(--dim);
+  font-size: 0.75rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--dim);
+  font-weight: normal;
+  text-align: left;
+}
+
+td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+th.num,
+td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.pos {
+  color: var(--accent);
+}
+
+.neg {
+  color: var(--neg);
+}
+
+.zero {
+  color: var(--dim);
+}
+
+.empty {
+  margin: 0.25rem 0;
+  color: var(--dim);
+  font-style: italic;
+}
+
+.members-list {
+  margin: 0.75rem 0 0;
+}
+
+.members-list .chip {
+  display: inline-block;
+  margin: 0.15rem 0.35rem 0.15rem 0;
+  padding: 0 0.5rem;
+  border: 1px solid var(--accent-strong);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.transfers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.transfers li {
+  padding: 0.3rem 0;
+  border-bottom: 1px dotted var(--border);
+}
+
+.transfers strong {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+#status {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+#status.info {
+  border: 1px solid var(--accent-strong);
+  color: var(--accent);
+}
+
+#status.error {
+  border: 1px solid var(--neg);
+  color: var(--neg);
+}
+
+footer {
+  margin: 1.5rem 0 0.5rem;
+  color: var(--dim);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 0.6rem;
+  }
+
+  section {
+    padding: 0.75rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

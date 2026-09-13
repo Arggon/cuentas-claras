@@ -1,12 +1,16 @@
 ---
 type: bug
-status: todo
+status: in_progress
 id: bug-vitest-dist-dupes
 title: "vitest runs compiled dist/*.test.js after npm run build, doubling the suite"
+assignee: Arggon
+branch: fix/bug-vitest-dist-dupes
 parent: story-imported-issues
 labels: []
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T05:11:09.889Z"
+worktree_path: /home/arggon/Projects/cuentas-claras-bug-vitest-dist-dupes
 ---
 <!--
   Placement (v0): tasks/v1/v1-core/story-imported-issues/bug-vitest-dist-dupes.md

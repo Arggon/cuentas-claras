@@ -1,13 +1,17 @@
 ---
 type: task
-status: todo
+status: in_progress
 id: task-issue-4
 title: "issue #4: REST API + JSON file persistence"
+assignee: Arggon
+branch: feat/task-issue-4
 parent: story-imported-issues
 labels: [enhancement]
 created: "2026-09-13"
 updated: "2026-09-13"
+claimed_at: "2026-09-13T04:29:52.896Z"
 depends_on: [task-issue-3]
+worktree_path: /home/arggon/Projects/cuentas-claras-task-issue-4
 ---
 Expose the ledger over HTTP and persist it.
 

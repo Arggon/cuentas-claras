@@ -1,12 +1,11 @@
-import express from "express";
+import path from "node:path";
+import { createApp } from "./app.js";
+import { FileLedgerRepository } from "./store.js";
 
-const app = express();
-const port = process.env.PORT ?? 3000;
+const port = Number(process.env.PORT ?? 3000);
+const ledgerPath = process.env.LEDGER_PATH ?? path.join("data", "ledger.json");
+const store = new FileLedgerRepository(ledgerPath);
 
-app.get("/health", (_req, res) => {
-  res.json({ ok: true });
-});
-
-app.listen(port, () => {
-  console.log(`cuentas-claras listening on http://localhost:${port}`);
+createApp(store).listen(port, () => {
+  console.log(`cuentas-claras listening on http://localhost:${port} (ledger: ${ledgerPath})`);
 });

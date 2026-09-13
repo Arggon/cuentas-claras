@@ -21,3 +21,10 @@ export interface Transfer {
   to: string;
   amountCents: number;
 }
+
+/** The persisted ledger, exactly as docs/data-format.md defines it. */
+export interface Ledger {
+  group: string;
+  members: string[];
+  expenses: Expense[];
+}

@@ -10,7 +10,6 @@ labels: [enhancement]
 created: "2026-09-13"
 updated: "2026-09-13"
 depends_on: [task-issue-3]
-worktree_path: /home/arggon/Projects/cuentas-claras-task-issue-4
 ---
 Expose the ledger over HTTP and persist it.
 

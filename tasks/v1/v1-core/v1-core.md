@@ -1,6 +1,6 @@
 ---
 type: epic
-status: done
+status: todo
 id: v1-core
 title: "v1 core: ledger, settlement, API & UX"
 parent: v1

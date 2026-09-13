@@ -3,3 +3,5 @@ dist/
 *.log
 .env
 data/
+.v2c/
+.video_agent/
